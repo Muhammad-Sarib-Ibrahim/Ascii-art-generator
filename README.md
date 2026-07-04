@@ -11,15 +11,7 @@ Drag and drop an image in, and it renders it using nothing but characters like `
 ↔️  Output width in characters (press Enter for 100): 80
 🎨  Invert for a dark-background terminal? (y/N): n
 
-Generating...
-
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@%%%%%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@%*=:..  ..:=*%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-...
-```
-
-*(Add a real before/after screenshot here — original image next to the ASCII output. This is the single best thing you can add to this README.)*
+<img width="1834" height="2048" alt="WhatsApp Image 2026-07-04 at 19 47 10" src="https://github.com/user-attachments/assets/4ac83a01-8569-417e-a678-e188cbdd5179" />
 
 ## Features
 
