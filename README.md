@@ -7,9 +7,9 @@ Drag and drop an image in, and it renders it using nothing but characters like `
 ## Demo
 
 ```
-📂  Drag and drop your image here, then press Enter: my_photo.png
-↔️  Output width in characters (press Enter for 100): 80
-🎨  Invert for a dark-background terminal? (y/N): n
+📂  Drag and drop your image here, then press Enter: profile_photo.png
+↔️  Output width in characters (press Enter for 100): 50
+🎨  Invert for a light-coloured terminal? (y/N): n
 
 %%###**+-=*++*****++*++**+*#*++*==+=--==+=++++-+**
 %%%%%%%*=*++++*++++==+++==+=*+===-=-=+++++++=-+***
