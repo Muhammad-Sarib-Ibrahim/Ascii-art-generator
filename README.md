@@ -38,7 +38,7 @@ Drag and drop an image in, and it renders it using nothing but characters like `
 =:::--------:::-------++=#*##*=+++***=:=+-----:-+=
 =-::--------:::-------+--***##=++***+-:++--:-::-=*
 :::---------.:-------==:-****#-+****=::+*++=--.:-=
-
+```
 ## Features
 
 - Interactive prompts — no command-line flags to memorize
