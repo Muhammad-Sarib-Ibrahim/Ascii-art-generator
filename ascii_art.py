@@ -13,12 +13,20 @@ Usage:
 import os
 from PIL import Image
 
-BANNER = r"""
-╔══════════════════════════════════════════╗
-║          A S C I I   A R T                ║
-║             G E N E R A T O R             ║
-╚══════════════════════════════════════════╝
-"""
+
+def make_banner():
+    """Build the header box dynamically so the border width always matches
+    the padded text exactly - hand-typing spaces made it easy to get the
+    right edge misaligned by a character or two."""
+    lines = ["A S C I I   A R T", "G E N E R A T O R"]
+    inner_width = max(len(line) for line in lines) + 4  # side padding
+    top = "╔" + "═" * inner_width + "╗"
+    bottom = "╚" + "═" * inner_width + "╝"
+    middle = "\n".join("║" + line.center(inner_width) + "║" for line in lines)
+    return f"\n{top}\n{middle}\n{bottom}\n"
+
+
+BANNER = make_banner()
 
 # Characters ordered from "lightest" to "darkest" visual density.
 # This is the ramp we map brightness values onto.
@@ -43,14 +51,14 @@ def grayify(image):
     return image.convert("L")
 
 
-def pixels_to_ascii(image):
-    """Map each pixel's brightness (0-255) to a character in ASCII_CHARS."""
+def pixels_to_ascii(image, ramp):
+    """Map each pixel's brightness (0-255) to a character in the given ramp."""
     pixels = image.get_flattened_data() if hasattr(image, "get_flattened_data") else image.getdata()
     chars = []
     for pixel_value in pixels:
-        # Scale 0-255 down to an index into ASCII_CHARS
-        index = pixel_value * (len(ASCII_CHARS) - 1) // 255
-        chars.append(ASCII_CHARS[index])
+        # Scale 0-255 down to an index into the ramp
+        index = pixel_value * (len(ramp) - 1) // 255
+        chars.append(ramp[index])
     return "".join(chars)
 
 
@@ -63,13 +71,15 @@ def image_to_ascii(path, width=100, invert=False):
     image = resize_image(image, width)
     image = grayify(image)
 
-    if invert:
-        # Flip the ramp for light-text-on-dark-background terminals,
-        # where "dark" pixels should map to sparse characters instead.
-        global ASCII_CHARS
-        ASCII_CHARS = ASCII_CHARS[::-1]
+    # Build a local ramp for this call only - never mutate the module-level
+    # ASCII_CHARS, or invert state leaks into later calls in the same session.
+    # Default ramp (dark pixel -> sparse char, bright pixel -> dense char)
+    # looks correct on DARK-background terminals, since dense characters
+    # are drawn in light-colored text. Invert this for LIGHT-background
+    # terminals, where dense characters mean more dark ink instead.
+    ramp = ASCII_CHARS[::-1] if invert else ASCII_CHARS
 
-    ascii_str = pixels_to_ascii(image)
+    ascii_str = pixels_to_ascii(image, ramp)
 
     # Break the flat string back into rows matching the resized width.
     img_width = image.width
@@ -129,7 +139,7 @@ def main():
     while True:
         image_path = prompt_for_image()
         width = prompt_width()
-        invert = prompt_yes_no("🎨  Invert for a dark-background terminal?", default=False)
+        invert = prompt_yes_no("🎨  Invert for a LIGHT-background terminal (black text on white)?", default=False)
 
         print("\nGenerating...\n")
         result = image_to_ascii(image_path, width=width, invert=invert)
